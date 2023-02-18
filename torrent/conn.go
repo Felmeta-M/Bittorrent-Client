@@ -1,7 +1,7 @@
 package torrent
 
 import (
-	"bittorrent/peer_wire"
+	"bittorrent/peer-wire"
 	"bittorrent/torrent/storage"
 	"bufio"
 	"errors"

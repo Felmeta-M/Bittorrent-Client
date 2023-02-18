@@ -1,13 +1,10 @@
 package torrent
 
 import (
-	"bittorrent/peer_wire"
+	"bittorrent/peer-wire"
 	"math"
 	"math/rand"
 )
-
-//TODO:The extensions that we support are
-//hardcoded.Change this?
 
 var extensions = peer_wire.Extensions{
 	peer_wire.ExtMetadataName: peer_wire.ExtMetadataID,

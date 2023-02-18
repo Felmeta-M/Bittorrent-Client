@@ -2,7 +2,7 @@ package torrent
 
 import (
 	"bittorrent/metainfo"
-	"bittorrent/peer_wire"
+	"bittorrent/peer-wire"
 	"bittorrent/torrent/storage"
 	"bittorrent/tracker"
 	"bytes"

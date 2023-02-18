@@ -1,6 +1,10 @@
 package torrent
 
 import (
+	"bittorrent/metainfo"
+	peer_wire "bittorrent/peer-wire"
+	"bittorrent/torrent/storage"
+	"bittorrent/tracker"
 	"crypto/sha1"
 	"fmt"
 	"log"
@@ -12,11 +16,6 @@ import (
 	"sync"
 	"text/tabwriter"
 	"time"
-
-	"bittorrent/metainfo"
-	"bittorrent/peer_wire"
-	"bittorrent/torrent/storage"
-	"bittorrent/tracker"
 
 	"bittorrent/bencode"
 
@@ -31,12 +30,9 @@ var maxRequestBlockSz = 1 << 14
 
 const metadataPieceSz = 1 << 14
 
-// Torrent represents a torrent and maintains state about it.Multiple goroutines may
-// invoke methods on a Torrent simultaneously.
 type Torrent struct {
-	cl     *Client
-	logger *log.Logger
-	//channel we receive messages from conns
+	cl          *Client
+	logger      *log.Logger
 	recvC       chan msgWithConn
 	openStorage storage.Open
 	storage     storage.Storage
@@ -150,8 +146,6 @@ func (t *Torrent) close() {
 	t.newConnC = nil
 	t.pieces = nil
 	t.peers = nil
-	//t.logger = nil
-	//TODO: clear struct fields
 }
 
 func (t *Torrent) dropAllConns() {
@@ -334,7 +328,6 @@ func (t *Torrent) announceDht() {
 	t.dhtAnnounceResp = *ann
 	if !t.dhtAnnounceTimer.Stop() {
 		select {
-		//TODO:shouldn't happen
 		case <-t.dhtAnnounceTimer.C:
 		default:
 		}

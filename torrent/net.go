@@ -5,7 +5,7 @@ import (
 	"net"
 	"strconv"
 
-	"bittorrent/peer_wire"
+	"bittorrent/peer-wire"
 )
 
 type dialer struct {

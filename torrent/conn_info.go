@@ -1,7 +1,7 @@
 package torrent
 
 import (
-	"bittorrent/peer_wire"
+	"bittorrent/peer-wire"
 	"fmt"
 	"time"
 

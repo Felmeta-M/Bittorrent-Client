@@ -8,13 +8,6 @@ import (
 	"io"
 )
 
-const protoLen byte = 19
-
-var proto = [...]byte{
-	'B', 'i', 't', 'T', 'o', 'r', 'r', 'e', 'n', 't',
-	' ', 'p', 'r', 'o', 't', 'o', 'c', 'o', 'l',
-}
-
 type HandShake struct {
 	Reserved Reserved
 	InfoHash [20]byte
@@ -30,6 +23,13 @@ func (h *HandShake) Do(rw io.ReadWriter) (*HandShake, error) {
 	default:
 		return h.receipt(rw)
 	}
+}
+
+const protoLen byte = 19
+
+var proto = [...]byte{
+	'B', 'i', 't', 'T', 'o', 'r', 'r', 'e', 'n', 't',
+	' ', 'p', 'r', 'o', 't', 'o', 'c', 'o', 'l',
 }
 
 // initiate should be called when a client wants to initiate

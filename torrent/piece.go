@@ -5,7 +5,7 @@ import (
 	"sort"
 	"sync"
 
-	"bittorrent/peer_wire"
+	peer_wire "bittorrent/peer-wire"
 
 	"github.com/anacrolix/missinggo/bitmap"
 )
@@ -16,17 +16,12 @@ const (
 
 // accessed by conns and Torrent
 type pieces struct {
-	t           *Torrent
-	ownedPieces bitmap.Bitmap
-	//every conn can call getRequests and discardRequests.This mutex protects the fields
-	//that these methods access.
-	mu       sync.Mutex //guards following
-	pcs      []*Piece
-	selector PieceSelector
-	endGame  bool
-	// caps the number of different pieces that are requested simultaneously.
-	//maxInFlightPieces int
-	//if false we shouldn't make any requests
+	t               *Torrent
+	ownedPieces     bitmap.Bitmap
+	mu              sync.Mutex //guards following
+	pcs             []*Piece
+	selector        PieceSelector
+	endGame         bool
 	downloadEnabled bool
 }
 
@@ -77,15 +72,6 @@ func (p *pieces) fillRequests(peerPieces bitmap.Bitmap, requests []block) (n int
 	if !p.downloadEnabled {
 		return
 	}
-	/*if p.maxInFlightPieces <= 0 {
-		return
-	}
-	pending := filterPieces(p.pcs, func(p *Piece) bool {
-		return p.PendingBlocks() > 0
-	})
-	if len(pending) > p.maxInFlightPieces {
-		panic("we shouldn't have that much pending pieces")
-	}*/
 	unrequested := filterPieces(p.pcs, func(p *Piece) bool {
 		return p.UnrequestedBlocks() > 0 && peerPieces.Get(p.index)
 	})
@@ -98,18 +84,6 @@ func (p *pieces) fillRequests(peerPieces bitmap.Bitmap, requests []block) (n int
 		p2 := unrequested[j]
 		return p.selector.Less(p1, p2)
 	})
-	//Ignore p.maxInFlightPieces for the time...
-	/*inFlightToAdd := p.maxInFlightPieces - len(pending)
-	unrequested = filterPieces(unrequested, func(p *Piece) bool {
-		if p.PendingBlocks() > 0 {
-			return true
-		}
-		inFlightToAdd--
-		//this piece has zero pending blocks and if we already have
-		//(or we are going to schedule) p.maxInFlightRecs requests in flight
-		//then don't request it
-		return inFlightToAdd >= 0
-	})*/
 	var unreq []block
 	total, _n := len(requests), 0
 	for _, piece := range unrequested {
@@ -132,17 +106,6 @@ func (p *pieces) fillRequests(peerPieces bitmap.Bitmap, requests []block) (n int
 	}
 	return
 }
-
-/*
-// Insertion sort
-func insertionSort(data Interface, a, b int) {
-	for i := a + 1; i < b; i++ {
-		for j := i; j > a && data.Less(j, j-1); j-- {
-			data.Swap(j, j-1)
-		}
-	}
-}
-*/
 
 func (p *pieces) discardRequests(requests []block) {
 	p.mu.Lock()
@@ -249,7 +212,6 @@ func filterPieces(pieces []*Piece, f func(*Piece) bool) []*Piece {
 			ret = append(ret, p)
 		}
 	}
-	//TODO: maybe this escapes to heap and it is bad practice?
 	return ret
 }
 
@@ -270,7 +232,6 @@ type Piece struct {
 	//keeps track of which blocks we have been downloaded
 	completeBlocks bitmap.Bitmap
 	//conns that we have received blocks for this piece
-	//TODO: ban a conn with most maliciousness (see conn_stats.go)
 	//on verification failure.
 	contributors []*connInfo
 }

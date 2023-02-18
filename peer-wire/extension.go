@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	"bittorrent/bencode"
-	// "github.com/jackpal/bencode-go"
 )
 
 type ExtensionID int8
