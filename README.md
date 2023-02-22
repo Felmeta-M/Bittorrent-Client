@@ -1,13 +1,19 @@
 # BitTorrent Client Implementation
 
-This is a BitTorrent client implementation built with [Python](https://www.python.org/) using the [BitTorrent Protocol Specification](https://www.bittorrent.org/beps/bep_0003.html).
+This is a BitTorrent client implementation built with [Golang](https://www.golang.org/) using the [BitTorrent Protocol Specification](https://www.bittorrent.org/beps/bep_0003.html).
+
+This project is a BitTorrent client implementation for downloading and sharing files over the BitTorrent protocol. It's easy to use, customizable, and supports downloading from multiple sources. 
 
 ## Collaborators
 
 | Name | Github |
 |------|--------|
-| Usmael  | [@usmael](https://github.com/Usmaelabdureman) |
-| Jabir | [@janesmith](https://github.com/janesmith) |
+| Usmael Abdurhaman | [@usmael](https://github.com/Usmaelabdureman) |
+| Jabir Esmael | [@jabir](https://github.com/oumburs9) |
+| Felmeta Muktar | [@felmeta](https://github.com/Felmeta-M) |
+| Kenna Tefera | [@Kenna](https://github.com/kenna-Tefera) |
+| Rut Birhanu | [@rut](https://github.com/rutbirhanu) |
+| Selamawit Siferh | [@selam](https://github.com/selamawitsiferh) |
 
 ## Overview
 
@@ -15,22 +21,24 @@ This implementation supports the following features:
 
 - Downloading and seeding of torrent files
 - Magnet link support
-- Multiple downloads in parallel
-- Optimized piece selection algorithm
-
-## Installation
-
-To install the BitTorrent client, you will need to have [Python](https://www.python.org/downloads/) installed on your machine. Then, simply clone the repository and run the following command:
+- n-leechers and n-seeders
+- n-peers and etc
 
 
-## Usage
+## Running the BitTorrent Client Implementation
 
-To use the BitTorrent client, simply run the following command in your terminal:
+To run the BitTorrent client implementation, please follow these steps:
 
-Replace `<torrent_file_path>` with the path to the torrent file you want to download.
+1. Initialize a new Go module for the BitTorrent project using the command `go mod init bittorrent`. This will create a new file named `go.mod` in the root directory of the project.
 
-## License
+2. Tidy up the module dependencies using the command `go mod tidy`. This will ensure that all the required dependencies are downloaded and available in the project.
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+3. Build the BitTorrent client using the command `go build`. This will compile the project and generate the executable file.
+
+4. Run the BitTorrent client using the command `./bittorrent -torrentfile <magnet link or .torrentfile>`. Replace `<magnet link or .torrentfile>` with the actual magnet link or .torrent file you want to download. This will start the BitTorrent client and initiate the download process.
+
+Once you have completed these steps, the BitTorrent client should be up and running, and you should be able to download files using the BitTorrent protocol.
+
+
 
 
